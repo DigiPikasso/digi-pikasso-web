@@ -61,7 +61,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 Icons.image_outlined,
                 color: Color(0xFF009999),
               ),
-              title: const Text('Catalog'),
+              title: const Text('Art Catalogue'),
               onTap: () {
                 Navigator.pop(context);
                 setState(() {
@@ -71,10 +71,10 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             ListTile(
               leading: Icon(
-                Icons.location_on_outlined,
+                Icons.people,
                 color: Color(0xFF009999),
               ),
-              title: const Text('Locations'),
+              title: const Text('Hall of Fame'),
               onTap: () {
                 Navigator.pop(context);
                 setState(() {
@@ -84,14 +84,40 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             ListTile(
               leading: Icon(
-                Icons.cases_outlined,
+                Icons.music_note,
                 color: Color(0xFF009999),
               ),
-              title: const Text('Users'),
+              title: const Text('Art Exhibitions'),
               onTap: () {
                 Navigator.pop(context);
                 setState(() {
                   selectedIndex = 2;
+                });
+              },
+            ),
+            ListTile(
+              leading: Icon(
+                Icons.map,
+                color: Color(0xFF009999),
+              ),
+              title: const Text('Art Locator'),
+              onTap: () {
+                Navigator.pop(context);
+                setState(() {
+                  selectedIndex = 4;
+                });
+              },
+            ),
+            ListTile(
+              leading: Icon(
+                Icons.settings,
+                color: Color(0xFF009999),
+              ),
+              title: const Text('Building Management'),
+              onTap: () {
+                Navigator.pop(context);
+                setState(() {
+                  selectedIndex = 3;
                 });
               },
             ),
@@ -110,7 +136,6 @@ class _MyHomePageState extends State<MyHomePage> {
     Center(
       child: Text('Users'),
     ),
-    
   ];
 }
 
