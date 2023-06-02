@@ -4,6 +4,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:digi_pikasso/config/constants.dart';
 import 'package:digi_pikasso/config/size_config.dart';
 import 'package:digi_pikasso/data.dart';
+import 'package:digi_pikasso/presentation/hall_of_fame.dart';
 import 'package:digi_pikasso/presentation/shared/appbar.dart';
 import 'package:digi_pikasso/presentation/small_entry.dart';
 import 'package:digi_pikasso/presentation/theme/apptheme.dart';
@@ -129,10 +130,8 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   List<Widget> views = [
+    HallOfFame(),
     Catalog(),
-    Center(
-      child: Text('Hall of Fame'),
-    ),
     Center(
       child: Text('Art Exhibitions'),
     ),

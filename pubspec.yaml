@@ -39,7 +39,7 @@ dependencies:
   get_it: 
   equatable: 
   bloc: 
-  http:
+  http: ^1.0.0
   dartz: 
   flutter_bloc: 
   go_router: 
