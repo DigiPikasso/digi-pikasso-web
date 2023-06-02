@@ -104,7 +104,7 @@ class _MyHomePageState extends State<MyHomePage> {
               onTap: () {
                 Navigator.pop(context);
                 setState(() {
-                  selectedIndex = 4;
+                  selectedIndex = 3;
                 });
               },
             ),
@@ -117,7 +117,7 @@ class _MyHomePageState extends State<MyHomePage> {
               onTap: () {
                 Navigator.pop(context);
                 setState(() {
-                  selectedIndex = 3;
+                  selectedIndex = 4;
                 });
               },
             ),
@@ -131,10 +131,16 @@ class _MyHomePageState extends State<MyHomePage> {
   List<Widget> views = [
     Catalog(),
     Center(
-      child: Text('Locations'),
+      child: Text('Hall of Fame'),
     ),
     Center(
-      child: Text('Users'),
+      child: Text('Art Exhibitions'),
+    ),
+    Center(
+      child: Text('Art Locator'),
+    ),
+    Center(
+      child: Text('Building Management'),
     ),
   ];
 }
@@ -190,7 +196,7 @@ class Catalog extends StatelessWidget {
               Positioned(
                 bottom: 5,
                 child: Text(
-                  'Catalog',
+                  'Art Catalogue',
                   style:
                       GoogleFonts.montserratTextTheme().displayLarge!.copyWith(
                             color: Colors.white,
