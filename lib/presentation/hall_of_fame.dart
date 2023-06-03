@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:ui';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:digi_pikasso/data.dart';
+import 'package:go_router/go_router.dart';
 import 'package:http/http.dart' as http;
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:digi_pikasso/config/constants.dart';
@@ -85,16 +87,29 @@ class _HallOfFameState extends State<HallOfFame> {
                   return Center(child: CircularProgressIndicator());
                 }
                 var all = snapshot.data!;
-                return GridView.count(
-                  shrinkWrap: true,
-                  crossAxisCount: 2,
-                  children: List.generate(all.length, (index) {
-                    return Container(
-                        margin: EdgeInsets.only(
-                          left: index % 2 != 0 ? 0 : kDefaultPaddingSize,
-                        ),
-                        child: ArtistCard(all[index]));
-                  }),
+                return Container(
+                  child: CarouselSlider(
+                    options: CarouselOptions(
+                      scrollPhysics: BouncingScrollPhysics(),
+                      viewportFraction: 0.5,
+                      height: 44 * SizeConfig.heightMultiplier,
+                      enlargeCenterPage: true,
+                      enableInfiniteScroll: false,
+                      autoPlayAnimationDuration: Duration(seconds: 2),
+                      autoPlayInterval: Duration(seconds: 8),
+                      autoPlay: true,
+                    ),
+                    items: all.map((artist) {
+                      return Builder(
+                        builder: (BuildContext context) {
+                          return Container(
+                              margin:
+                                  EdgeInsets.only(right: kDefaultPaddingSize),
+                              child: ArtistCard(artist));
+                        },
+                      );
+                    }).toList(),
+                  ),
                 );
               })),
         ],
@@ -109,77 +124,50 @@ class ArtistCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      child: Stack(
-        clipBehavior: Clip.none,
-        alignment: Alignment.topLeft,
-        children: [
-          ClipRRect(
-            borderRadius: BorderRadius.only(
-              bottomRight: Radius.circular(10),
-              topRight: Radius.circular(10),
-              topLeft: Radius.circular(10),
-            ),
-            child: Image.asset(
-              height: 25.74 * SizeConfig.heightMultiplier,
-              width: 24 * kMediumWidth,
-              "assets/woman.jpg",
-              fit: BoxFit.cover,
-            ),
-          ),
-          Positioned(
-            bottom: -SizeConfig.heightMultiplier,
-            child: Container(
-              padding: EdgeInsets.all(5),
-              width: 24 * kMediumWidth,
-              decoration: BoxDecoration(
-                color: Theme.of(context)
-                    .appBarTheme
-                    .backgroundColor!
-                    .withOpacity(0.9),
-                borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(5),
-                  bottomRight: Radius.circular(5),
-                  topRight: Radius.circular(5),
-                ),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(height: kSmallHeight),
-                  AutoSizeText(
-                    "${artist.firstName} ${artist.lastName}",
-                    maxLines: 1,
-                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                        fontWeight: FontWeight.w600, color: Colors.white),
-                  ),
-                  Text(
-                    "Born: ${artist.artistDateOfBirth}",
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyLarge!
-                        .copyWith(color: Colors.white),
-                  ),
-                  Text(
-                    "Origin: ${artist.countryOfOrigin}",
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyLarge!
-                        .copyWith(color: Colors.white),
-                  ),
-                  AutoSizeText(
-                    "Art Type: ${artist.mainArtType}",
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyLarge!
-                        .copyWith(color: Colors.white),
-                  ),
-                ],
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        GestureDetector(
+          onTap: () {
+            // context.push('/${piece.id}');
+          },
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(20),
+            child: Hero(
+              tag: artist.id,
+              child: Image.asset(
+                height: 25.74 * SizeConfig.heightMultiplier,
+                width: 35 * kMediumWidth,
+                "assets/woman.jpg",
+                fit: BoxFit.cover,
               ),
             ),
           ),
-        ],
-      ),
+        ),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: kDefaultPaddingSize),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(height: kSmallHeight),
+              AutoSizeText(
+                "${artist.firstName} ${artist.lastName}",
+                maxLines: 1,
+                style: Theme.of(context)
+                    .textTheme
+                    .headlineSmall!
+                    .copyWith(fontWeight: FontWeight.w600),
+              ),
+              Text("Born: ${artist.artistDateOfBirth}",
+                  style: Theme.of(context).textTheme.bodyLarge),
+              Text("Origin: ${artist.countryOfOrigin}",
+                  style: Theme.of(context).textTheme.bodyLarge),
+              AutoSizeText("Art Type: ${artist.mainArtType}",
+                  style: Theme.of(context).textTheme.bodyLarge),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }

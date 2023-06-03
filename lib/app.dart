@@ -130,8 +130,8 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   List<Widget> views = [
-    HallOfFame(),
     Catalog(),
+    HallOfFame(),
     Center(
       child: Text('Art Exhibitions'),
     ),
