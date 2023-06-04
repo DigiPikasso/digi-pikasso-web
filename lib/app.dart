@@ -4,6 +4,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:digi_pikasso/config/constants.dart';
 import 'package:digi_pikasso/config/size_config.dart';
 import 'package:digi_pikasso/data.dart';
+import 'package:digi_pikasso/presentation/hall_of_fame.dart';
 import 'package:digi_pikasso/presentation/shared/appbar.dart';
 import 'package:digi_pikasso/presentation/small_entry.dart';
 import 'package:digi_pikasso/presentation/theme/apptheme.dart';
@@ -104,7 +105,7 @@ class _MyHomePageState extends State<MyHomePage> {
               onTap: () {
                 Navigator.pop(context);
                 setState(() {
-                  selectedIndex = 4;
+                  selectedIndex = 3;
                 });
               },
             ),
@@ -117,7 +118,7 @@ class _MyHomePageState extends State<MyHomePage> {
               onTap: () {
                 Navigator.pop(context);
                 setState(() {
-                  selectedIndex = 3;
+                  selectedIndex = 4;
                 });
               },
             ),
@@ -130,11 +131,15 @@ class _MyHomePageState extends State<MyHomePage> {
 
   List<Widget> views = [
     Catalog(),
+    HallOfFame(),
     Center(
-      child: Text('Locations'),
+      child: Text('Art Exhibitions'),
     ),
     Center(
-      child: Text('Users'),
+      child: Text('Art Locator'),
+    ),
+    Center(
+      child: Text('Building Management'),
     ),
   ];
 }
@@ -190,7 +195,7 @@ class Catalog extends StatelessWidget {
               Positioned(
                 bottom: 5,
                 child: Text(
-                  'Catalog',
+                  'Art Catalogue',
                   style:
                       GoogleFonts.montserratTextTheme().displayLarge!.copyWith(
                             color: Colors.white,
