@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:ui';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:digi_pikasso/data.dart';
+import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:http/http.dart' as http;
 import 'package:auto_size_text/auto_size_text.dart';
@@ -135,12 +136,19 @@ class ArtistCard extends StatelessWidget {
             borderRadius: BorderRadius.circular(20),
             child: Hero(
               tag: artist.id,
-              child: Image.asset(
-                height: 25.74 * SizeConfig.heightMultiplier,
-                width: 35 * kMediumWidth,
-                "assets/woman.jpg",
-                fit: BoxFit.cover,
-              ),
+              child: artist.imageAvailableLocally == false
+                  ? Image.asset(
+                      height: 25.74 * SizeConfig.heightMultiplier,
+                      width: 35 * kMediumWidth,
+                      "assets/persons/none.png",
+                      fit: BoxFit.cover,
+                    )
+                  : Image.asset(
+                      height: 25.74 * SizeConfig.heightMultiplier,
+                      width: 35 * kMediumWidth,
+                      "assets/persons/${artist.id}.jpg",
+                      fit: BoxFit.cover,
+                    ),
             ),
           ),
         ),
@@ -173,12 +181,25 @@ class ArtistCard extends StatelessWidget {
 }
 
 Future<List<Artist>> getArtists() async {
-  // final response = await http.get(Uri.parse(
-  //     'https://container-service-2.urksr0dimjrfe.eu-west-1.cs.amazonlightsail.com/get-all-artists'));
-  // Iterable l = json.decode(response.body);
-  Iterable l = json.decode(allArtists);
+  final response = await http.get(Uri.parse(
+      'https://container-service-2.urksr0dimjrfe.eu-west-1.cs.amazonlightsail.com/get-all-artists'));
+  Iterable l = json.decode(response.body);
 
   List<Artist> artists =
       List<Artist>.from(l.map((model) => Artist.fromJson(model)));
+  for (var element in artists) {
+    var asset = await isLocalAsset("persons/${element.id}.jpg");
+    if (asset) {
+      element.imageAvailableLocally = true;
+    }
+  }
   return artists;
+}
+
+Future<bool> isLocalAsset(final String assetPath) async {
+  final encoded =
+      utf8.encoder.convert(Uri(path: Uri.encodeFull(assetPath)).path);
+  final asset = await ServicesBinding.instance.defaultBinaryMessenger
+      .send('flutter/assets', encoded.buffer.asByteData());
+  return asset != null;
 }

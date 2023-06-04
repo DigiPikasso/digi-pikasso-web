@@ -1,5 +1,6 @@
 import 'package:digi_pikasso/config/constants.dart';
 import 'package:digi_pikasso/config/size_config.dart';
+import 'package:digi_pikasso/data/models/Art.dart';
 import 'package:digi_pikasso/data/models/piece.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -7,29 +8,28 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class PieceContent extends StatelessWidget {
-  final Piece piece;
+  final Art piece;
   const PieceContent(this.piece, {super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            SvgPicture.asset(
-              "assets/header-logo.svg",
-              fit: BoxFit.cover,
-            ),
-            SizedBox(
-              width: 3.55 * SizeConfig.widthMultiplier,
-            ),
             Text(
               piece.title,
               style: GoogleFonts.montserratTextTheme()
                   .headlineSmall!
                   .copyWith(color: Colors.white),
-            )
+            ),
+            SvgPicture.asset(
+              "assets/header-logo.svg",
+              fit: BoxFit.cover,
+            ),
           ],
         ),
       ),
@@ -39,9 +39,9 @@ class PieceContent extends StatelessWidget {
           Stack(
             children: [
               Hero(
-                tag: piece.assetPath,
+                tag: piece.id,
                 child: Image.asset(
-                  piece.assetPath,
+                  "assets/art_images/${piece.id}.jpg",
                   height: 36.58 * SizeConfig.heightMultiplier,
                   width: MediaQuery.of(context).size.width,
                   fit: BoxFit.cover,
@@ -92,7 +92,7 @@ class PieceContent extends StatelessWidget {
                             .copyWith(fontWeight: FontWeight.w600),
                       ),
                       SizedBox(height: kMediumHeight),
-                      Text(piece.description),
+                      Text(piece.description ?? "N/A"),
                       SizedBox(height: kMediumHeight * 2),
                       Text(
                         "Notes",
@@ -102,34 +102,9 @@ class PieceContent extends StatelessWidget {
                             .copyWith(fontWeight: FontWeight.w600),
                       ),
                       SizedBox(height: kMediumHeight),
-                      Text(
-                          "Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing industries for previewing layouts and visual mockups."),
+                      Text(piece.notes ?? "N/A"),
                       SizedBox(height: kMediumHeight * 2),
-                      Text(
-                        "Signature Info",
-                        style: Theme.of(context)
-                            .textTheme
-                            .titleMedium!
-                            .copyWith(fontWeight: FontWeight.w600),
-                      ),
                       SizedBox(height: kMediumHeight),
-                      Text(
-                        "Signed",
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      SizedBox(height: kMediumHeight),
-                      RichText(
-                        text: TextSpan(
-                          text: 'Located in the bottom left: ',
-                          style: Theme.of(context).textTheme.bodyMedium,
-                          children: <TextSpan>[
-                            TextSpan(
-                              text: 'Jane Doe',
-                              style: GoogleFonts.satisfyTextTheme().bodyMedium,
-                            ),
-                          ],
-                        ),
-                      ),
                       SizedBox(width: kMediumWidth * 2),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -148,7 +123,8 @@ class PieceContent extends StatelessWidget {
                               style: Theme.of(context).textTheme.bodyMedium,
                               children: <TextSpan>[
                                 TextSpan(
-                                  text: 'Jane Doe',
+                                  text:
+                                      "${piece.artist.firstName} ${piece.artist.lastName}",
                                   style: Theme.of(context)
                                       .textTheme
                                       .bodyLarge!
@@ -158,78 +134,79 @@ class PieceContent extends StatelessWidget {
                               ],
                             ),
                           ),
+                          informationEntryWidget(context, 'Size (h w)',
+                              '${piece.height} x ${piece.width}'),
                           informationEntryWidget(
-                              context, 'Size (h w d)', '30 x 40 in'),
+                              context, 'Medium', piece.medium),
                           informationEntryWidget(
-                              context, 'Medium', 'Oil On Canvas'),
-                          informationEntryWidget(context, 'Type', 'Painting'),
+                              context, 'Type', piece.artType.name),
                           informationEntryWidget(
-                              context, 'Current Location', 'somewhere'),
-                          SizedBox(height: kSmallHeight),
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Text("Status"),
-                              SizedBox(width: kMediumWidth),
-                              PieceStatus()
-                            ],
-                          ),
+                              context, 'Current Location', piece.location.name),
+                          // SizedBox(height: kSmallHeight),
+                          // Row(
+                          //   crossAxisAlignment: CrossAxisAlignment.center,
+                          //   mainAxisAlignment: MainAxisAlignment.start,
+                          //   children: [
+                          //     Text("Status"),
+                          //     SizedBox(width: kMediumWidth),
+                          //     PieceStatus()
+                          //   ],
+                          // ),
                           SizedBox(height: kMediumHeight * 2),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                "Location History",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .titleLarge!
-                                    .copyWith(fontWeight: FontWeight.w600),
-                              ),
-                              SizedBox(width: kMediumWidth),
-                              FilledButton.icon(
-                                  onPressed: () {},
-                                  icon: Icon(Icons.add),
-                                  label: Text('Add new'))
-                            ],
-                          ),
-                          SizedBox(height: kMediumHeight),
-                          DataTable(
-                            columns: [
-                              DataColumn(
-                                  label: Text('Location',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .titleMedium)),
-                              DataColumn(
-                                  label: Text('Dates',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .titleMedium)),
-                              DataColumn(
-                                  label: Text('Current',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .titleMedium)),
-                            ],
-                            rows: [
-                              DataRow(cells: [
-                                DataCell(Text('FNB Parkside')),
-                                DataCell(Text('24 Jan 2021 - present')),
-                                DataCell(Text('Yes')),
-                              ]),
-                              DataRow(cells: [
-                                DataCell(Text('FNB Parkside')),
-                                DataCell(Text('24 Jan 2021 - present')),
-                                DataCell(Text('')),
-                              ]),
-                              DataRow(cells: [
-                                DataCell(Text('FNB Parkside')),
-                                DataCell(Text('24 Jan 2021 - present')),
-                                DataCell(Text('')),
-                              ]),
-                            ],
-                          ),
+                          // Row(
+                          //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          //   children: [
+                          //     Text(
+                          //       "Location History",
+                          //       style: Theme.of(context)
+                          //           .textTheme
+                          //           .titleLarge!
+                          //           .copyWith(fontWeight: FontWeight.w600),
+                          //     ),
+                          //     SizedBox(width: kMediumWidth),
+                          //     FilledButton.icon(
+                          //         onPressed: () {},
+                          //         icon: Icon(Icons.add),
+                          //         label: Text('Add new'))
+                          //   ],
+                          // ),
+                          // SizedBox(height: kMediumHeight),
+                          // DataTable(
+                          //   columns: [
+                          //     DataColumn(
+                          //         label: Text('Location',
+                          //             style: Theme.of(context)
+                          //                 .textTheme
+                          //                 .titleMedium)),
+                          //     DataColumn(
+                          //         label: Text('Dates',
+                          //             style: Theme.of(context)
+                          //                 .textTheme
+                          //                 .titleMedium)),
+                          //     DataColumn(
+                          //         label: Text('Current',
+                          //             style: Theme.of(context)
+                          //                 .textTheme
+                          //                 .titleMedium)),
+                          //   ],
+                          //   rows: [
+                          //     DataRow(cells: [
+                          //       DataCell(Text('FNB Parkside')),
+                          //       DataCell(Text('24 Jan 2021 - present')),
+                          //       DataCell(Text('Yes')),
+                          //     ]),
+                          //     DataRow(cells: [
+                          //       DataCell(Text('FNB Parkside')),
+                          //       DataCell(Text('24 Jan 2021 - present')),
+                          //       DataCell(Text('')),
+                          //     ]),
+                          //     DataRow(cells: [
+                          //       DataCell(Text('FNB Parkside')),
+                          //       DataCell(Text('24 Jan 2021 - present')),
+                          //       DataCell(Text('')),
+                          //     ]),
+                          //   ],
+                          // ),
                         ],
                       ),
                     ],

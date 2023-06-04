@@ -6,22 +6,21 @@ import 'package:google_fonts/google_fonts.dart';
 AppBar getAppbar(BuildContext context) {
   return AppBar(
     // automaticallyImplyLeading: false,
+
     title: Row(
       crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        SvgPicture.asset(
-          "assets/header-logo.svg",
-          fit: BoxFit.cover,
-        ),
-        SizedBox(
-          width: 3.55 * SizeConfig.widthMultiplier,
-        ),
         Text(
           "DigiPikasso",
           style: GoogleFonts.pacificoTextTheme()
               .headlineSmall!
               .copyWith(color: Colors.white),
-        )
+        ),
+        SvgPicture.asset(
+          "assets/header-logo.svg",
+          fit: BoxFit.cover,
+        ),
       ],
     ),
   );

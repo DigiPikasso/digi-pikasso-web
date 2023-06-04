@@ -1,13 +1,12 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:digi_pikasso/config/constants.dart';
 import 'package:digi_pikasso/config/size_config.dart';
-import 'package:digi_pikasso/data/models/piece.dart';
-import 'package:digi_pikasso/presentation/piece_content.dart';
+import 'package:digi_pikasso/data/models/Art.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 class SmallPieceEntry extends StatelessWidget {
-  final Piece piece;
+  final Art piece;
   const SmallPieceEntry(this.piece, {super.key});
 
   @override
@@ -22,11 +21,11 @@ class SmallPieceEntry extends StatelessWidget {
           child: ClipRRect(
             borderRadius: BorderRadius.circular(20),
             child: Hero(
-              tag: piece.assetPath,
+              tag: piece.id,
               child: Image.asset(
                 height: 25.74 * SizeConfig.heightMultiplier,
                 width: 40 * kMediumWidth,
-                piece.assetPath,
+                "assets/art_images/${piece.id}.jpg",
                 fit: BoxFit.cover,
               ),
             ),
@@ -47,7 +46,7 @@ class SmallPieceEntry extends StatelessWidget {
                     .copyWith(fontWeight: FontWeight.w600),
               ),
               Text(
-                "by ${piece.artistName}",
+                "by ${piece.artist.firstName} ${piece.artist.lastName}",
                 style: Theme.of(context).textTheme.bodyLarge,
               ),
             ],

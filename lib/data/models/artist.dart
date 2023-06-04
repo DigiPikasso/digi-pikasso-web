@@ -6,6 +6,8 @@ class Artist {
   late String mainArtType;
   String? artistDateOfBirth;
   late String shortDescription;
+  String? artistImageLink;
+  bool imageAvailableLocally = false;
 
   Artist(
       {required this.id,
@@ -14,7 +16,8 @@ class Artist {
       required this.countryOfOrigin,
       required this.mainArtType,
       this.artistDateOfBirth,
-      required this.shortDescription});
+      required this.shortDescription,
+      this.artistImageLink});
 
   Artist.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -24,6 +27,7 @@ class Artist {
     mainArtType = json['mainArtType'];
     artistDateOfBirth = json['artistDateOfBirth'];
     shortDescription = json['shortDescription'];
+    artistImageLink = json['artistImageLink'];
   }
 
   Map<String, dynamic> toJson() {
@@ -35,6 +39,7 @@ class Artist {
     data['mainArtType'] = this.mainArtType;
     data['artistDateOfBirth'] = this.artistDateOfBirth;
     data['shortDescription'] = this.shortDescription;
+    data['artistImageLink'] = this.artistImageLink;
     return data;
   }
 }
