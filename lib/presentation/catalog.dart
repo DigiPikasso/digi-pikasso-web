@@ -119,13 +119,6 @@ class _CatalogState extends State<Catalog> {
                     .labelLarge!
                     .copyWith(letterSpacing: 0.41, fontWeight: FontWeight.bold),
               ),
-              Text(
-                "See all",
-                style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                    letterSpacing: 0.41,
-                    color: CupertinoColors.activeBlue,
-                    fontWeight: FontWeight.bold),
-              ),
             ],
           ),
         ),

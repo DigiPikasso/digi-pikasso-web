@@ -40,7 +40,7 @@ class PieceContent extends StatelessWidget {
             children: [
               Hero(
                 tag: piece.id,
-                child: Image.asset(
+                child: Image.network(
                   piece.imageLink,
                   height: 36.58 * SizeConfig.heightMultiplier,
                   width: MediaQuery.of(context).size.width,
