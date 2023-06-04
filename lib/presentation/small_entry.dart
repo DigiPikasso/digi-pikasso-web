@@ -22,10 +22,10 @@ class SmallPieceEntry extends StatelessWidget {
             borderRadius: BorderRadius.circular(20),
             child: Hero(
               tag: piece.id,
-              child: Image.asset(
+              child: Image.network(
                 height: 25.74 * SizeConfig.heightMultiplier,
                 width: 40 * kMediumWidth,
-                "assets/art_images/${piece.id}.jpg",
+                piece.imageLink,
                 fit: BoxFit.cover,
               ),
             ),

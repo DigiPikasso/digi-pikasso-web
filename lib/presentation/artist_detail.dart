@@ -39,8 +39,8 @@ class ArtistDetail extends StatelessWidget {
             children: [
               Hero(
                 tag: artist.id,
-                child: Image.asset(
-                  "assets/woman.jpg",
+                child: Image.network(
+                  artist.artistImageLink ?? "/assets/persons/none.png",
                   height: 36.58 * SizeConfig.heightMultiplier,
                   width: MediaQuery.of(context).size.width,
                   fit: BoxFit.cover,
@@ -60,7 +60,8 @@ class ArtistDetail extends StatelessWidget {
                 ),
               )
             ],
-          ), ],
+          ),
+        ],
       ),
     );
   }

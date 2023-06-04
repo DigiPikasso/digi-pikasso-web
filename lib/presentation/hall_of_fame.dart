@@ -135,21 +135,13 @@ class ArtistCard extends StatelessWidget {
           child: ClipRRect(
             borderRadius: BorderRadius.circular(20),
             child: Hero(
-              tag: artist.id,
-              child: artist.imageAvailableLocally == false
-                  ? Image.asset(
-                      height: 25.74 * SizeConfig.heightMultiplier,
-                      width: 35 * kMediumWidth,
-                      "assets/persons/none.png",
-                      fit: BoxFit.cover,
-                    )
-                  : Image.asset(
-                      height: 25.74 * SizeConfig.heightMultiplier,
-                      width: 35 * kMediumWidth,
-                      "assets/persons/${artist.id}.jpg",
-                      fit: BoxFit.cover,
-                    ),
-            ),
+                tag: artist.id,
+                child: Image.network(
+                  height: 25.74 * SizeConfig.heightMultiplier,
+                  width: 35 * kMediumWidth,
+                  artist.artistImageLink ?? "/assets/persons/none.png",
+                  fit: BoxFit.cover,
+                )),
           ),
         ),
         Padding(
