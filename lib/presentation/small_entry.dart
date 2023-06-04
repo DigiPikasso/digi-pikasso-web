@@ -39,10 +39,10 @@ class SmallPieceEntry extends StatelessWidget {
               SizedBox(height: kSmallHeight),
               AutoSizeText(
                 "${piece.title}",
-                maxLines: 1,
+                maxLines: 2,
                 style: Theme.of(context)
                     .textTheme
-                    .headlineSmall!
+                    .labelLarge!
                     .copyWith(fontWeight: FontWeight.w600),
               ),
               Text(

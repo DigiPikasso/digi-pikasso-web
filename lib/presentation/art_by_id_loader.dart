@@ -22,12 +22,12 @@ class _ArtByIdLoaderState extends State<ArtByIdLoader> {
 
   void loadArt() async {
     final response = await http.get(Uri.parse(
-        'https://container-service-2.urksr0dimjrfe.eu-west-1.cs.amazonlightsail.com/get-art-by-id/${widget.artId}'));
+        'https://container-service-2.urksr0dimjrfe.eu-west-1.cs.amazonlightsail.com/get-art-by-id/${widget.artId}/'));
 
-    Iterable l = json.decode(response.body);
+    Map<String, dynamic> l = json.decode(response.body);
 
-    List<Art> arts = List<Art>.from(l.map((model) => Art.fromJson(model)));
-    Art art = arts[0];
+    Art arts = Art.fromJson(l);
+    Art art = arts;
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) => PieceContent(art),

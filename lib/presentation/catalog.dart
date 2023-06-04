@@ -107,6 +107,7 @@ class _CatalogState extends State<Catalog> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        SizedBox(height: kMediumHeight),
         Padding(
           padding: EdgeInsets.symmetric(horizontal: kDefaultPaddingSize),
           child: Row(

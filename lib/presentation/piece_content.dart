@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:digi_pikasso/config/constants.dart';
 import 'package:digi_pikasso/config/size_config.dart';
 import 'package:digi_pikasso/data/models/Art.dart';
@@ -16,21 +17,12 @@ class PieceContent extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              piece.title,
-              style: GoogleFonts.montserratTextTheme()
-                  .headlineSmall!
-                  .copyWith(color: Colors.white),
-            ),
-            SvgPicture.asset(
-              "assets/header-logo.svg",
-              fit: BoxFit.cover,
-            ),
-          ],
+        title: Text(
+          piece.title,
+          overflow: TextOverflow.ellipsis,
+          style: GoogleFonts.montserratTextTheme()
+              .labelLarge!
+              .copyWith(color: Colors.white),
         ),
       ),
       body: Stack(
@@ -110,7 +102,7 @@ class PieceContent extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "Piece Information",
+                            "Artwork Information",
                             style: Theme.of(context)
                                 .textTheme
                                 .titleLarge!
