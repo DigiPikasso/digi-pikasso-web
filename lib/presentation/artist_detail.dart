@@ -1,9 +1,8 @@
 import 'package:digi_pikasso/config/constants.dart';
-import 'package:digi_pikasso/config/size_config.dart';
 import 'package:digi_pikasso/data/models/artist.dart';
+import 'package:digi_pikasso/presentation/dynamic_header.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class ArtistDetail extends StatelessWidget {
   final Artist artist;
@@ -12,56 +11,83 @@ class ArtistDetail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            SvgPicture.asset(
-              "assets/header-logo.svg",
-              fit: BoxFit.cover,
-            ),
-            SizedBox(
-              width: 3.55 * SizeConfig.widthMultiplier,
-            ),
-            Text(
-              artist.firstName,
-              style: GoogleFonts.montserratTextTheme()
-                  .headlineSmall!
-                  .copyWith(color: Colors.white),
-            )
-          ],
+        body: CustomScrollView(
+      physics: BouncingScrollPhysics(),
+      slivers: <Widget>[
+        SliverAppBar(),
+        SliverPersistentHeader(
+          pinned: true,
+          delegate: MyDynamicHeader(artist: artist),
         ),
-      ),
-      body: Stack(
-        alignment: Alignment.topCenter,
-        children: [
-          Stack(
-            children: [
-              Hero(
-                tag: artist.id,
-                child: Image.network(
-                  artist.artistImageLink ?? "/assets/persons/none.png",
-                  height: 36.58 * SizeConfig.heightMultiplier,
-                  width: MediaQuery.of(context).size.width,
-                  fit: BoxFit.cover,
+        SliverToBoxAdapter(
+          child: Container(
+            margin: EdgeInsets.only(
+                left: kDefaultPaddingSize,
+                right: kDefaultPaddingSize,
+                bottom: kDefaultPaddingSize,
+                top: kDefaultPaddingSize),
+            padding: EdgeInsets.symmetric(
+                horizontal: kDefaultPaddingSize, vertical: kMediumHeight),
+            width: MediaQuery.of(context).size.width,
+            decoration: BoxDecoration(
+              color: Colors.grey.shade200.withOpacity(0.7),
+              borderRadius: BorderRadius.circular(15),
+            ),
+            child: Column(
+              children: [
+                Text(
+                  "About Me",
+                  style: Theme.of(context).textTheme.titleLarge,
+                  textAlign: TextAlign.center,
                 ),
+                Text(
+                  artist.shortDescription,
+                  textAlign: TextAlign.center,
+                ),
+              ],
+            ),
+          ),
+        ),
+        SliverFixedExtentList(
+          itemExtent: 80.0,
+          delegate: SliverChildListDelegate(
+            [
+              Entry(
+                title: "Origin",
+                body: artist.countryOfOrigin,
               ),
-              Positioned(
-                bottom: 0,
-                child: Container(
-                  width: MediaQuery.of(context).size.width,
-                  height: kMediumHeight * 3.5,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(25),
-                        topRight: Radius.circular(25)),
-                  ),
-                ),
-              )
+              Entry(
+                title: "Main Art Type",
+                body: artist.mainArtType,
+              ),
+              Entry(
+                title: "Date of Birth",
+                body: artist.artistDateOfBirth ?? "N/A",
+              ),
             ],
           ),
-        ],
+        ),
+      ],
+    ));
+  }
+}
+
+class Entry extends StatelessWidget {
+  final String title;
+  final String body;
+  Entry({required this.title, required this.body});
+
+  @override
+  Widget build(BuildContext context) {
+    var brightness = MediaQuery.of(context).platformBrightness;
+    return ListTile(
+      title: Text(
+        title,
+        style: Theme.of(context).textTheme.titleLarge,
+      ),
+      subtitle: Text(
+        body,
+        style: Theme.of(context).textTheme.titleLarge,
       ),
     );
   }

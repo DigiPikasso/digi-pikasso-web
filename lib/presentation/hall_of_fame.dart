@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:ui';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:digi_pikasso/data.dart';
+import 'package:digi_pikasso/presentation/artist_detail.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:http/http.dart' as http;
@@ -130,7 +131,11 @@ class ArtistCard extends StatelessWidget {
       children: [
         GestureDetector(
           onTap: () {
-            // context.push('/${piece.id}');
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => ArtistDetail(artist),
+              ),
+            );
           },
           child: ClipRRect(
             borderRadius: BorderRadius.circular(20),
