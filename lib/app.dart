@@ -1,4 +1,5 @@
 import 'package:digi_pikasso/presentation/catalog.dart';
+import 'package:digi_pikasso/presentation/events.dart';
 import 'package:digi_pikasso/presentation/hall_of_fame.dart';
 import 'package:digi_pikasso/presentation/shared/appbar.dart';
 import 'package:digi_pikasso/presentation/theme/apptheme.dart';
@@ -125,9 +126,7 @@ class _MyHomePageState extends State<MyHomePage> {
   List<Widget> views = [
     Catalog(),
     HallOfFame(),
-    Center(
-      child: Text('Art Exhibitions'),
-    ),
+    Events(),
     Center(
       child: Text('Art Locator'),
     ),
